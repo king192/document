@@ -7,7 +7,7 @@ dir="/tmp/notice/"
 fullpath="${dir}${filename}"
 notice_times=2
 reports=0
-function is_notice() {
+is_notice() {
     mkdir -p ${dir}
     if [ -f "${fullpath}" ];then
         reports=`cat ${fullpath}`
@@ -59,11 +59,13 @@ case "$1" in
         for k in ${!res_list[@]}
         do
             echo ${res_list[${k}]}
-            if [ ${res_list[${k}]} = 0 ];then
-                echo 'your service is not running,the server port is ${k}'
-                res=is_notice
-                if [ ${res} = 1 ];then
-                    #do something to notice somebody.
+            if [ ${res_list[${k}]} = 1 ];then
+                echo "your service is not running,the server port is ${k}"
+                res=`is_notice`
+                echo "res:${res}"
+                if [ ${res} = false ];then
+                    echo 'do something to notice somebody'
+                    
                 fi
             fi
         done
