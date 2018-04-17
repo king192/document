@@ -1,3 +1,5 @@
+#!/bin/bash
+
 list_port="9000 80 22"
 res_list=()
 filename="`date "+%Y-%m-%d"`.lock"
