@@ -1,6 +1,6 @@
 #!/bin/bash
 
-list_port="9000 80 22"
+list_port="80 22 9000"
 res_list=()
 filename="`date "+%Y-%m-%d"`.lock"
 dir="/tmp/notice/"
@@ -18,8 +18,10 @@ is_notice() {
                 return 0
             else
                 reports=`expr ${reports} + 1`
-                echo "report:${reports}"
+                #echo "report:${reports}"
                 echo ${reports} > ${fullpath}
+                echo "true"
+                return 1
             fi
     else
         echo 1 > ${fullpath}
@@ -63,9 +65,10 @@ case "$1" in
                 echo "your service is not running,the server port is ${k}"
                 res=`is_notice`
                 echo "res:${res}"
-                if [ ${res} = false ];then
+                if [ ${res} = "true" ];then
                     echo 'do something to notice somebody'
-                    
+                    cd /home/baobei/aliyun-dysms-php-sdk-lite/demo/
+                    php notice_port_sms.php ${k}
                 fi
             fi
         done
